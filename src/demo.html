@@ -1,0 +1,68 @@
+
+    ========================================================
+      <!--List  of products--> home.component.html
+
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>IMAGE</th>
+          <th>PRODUCT</th>
+          <th>CATEGORY</th>
+          <th>PRICE</th>
+          <th>AVAILABLE</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todoList">
+            <td><img src="./assets/pizza_1.jpg" style="height: 150px; width:150px;"></td>
+           
+          <td>{{todo.product}}</td>
+          <td>{{todo.category}}</td>
+          <td>{{todo.price}}</td>
+          <td>{{todo.available}}</td>
+          <td>
+            <button type="button" class="btn btn-success" (click)="btnClick()">Purchase</button>
+          </td>
+          
+
+           
+        </tr>
+      </tbody>
+    </table></div>
+=======================================
+<app class="component ts"></app>
+
+import { Component } from '@angular/core';
+import { CrudHttpService } from '../crud-http.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent {
+
+  todoList:any=[];
+  constructor(private crudHttpService: CrudHttpService,private router:Router){}
+
+  ngOnInit(): void {
+     this.listTodos();
+  }
+
+  listTodos(){
+    this.crudHttpService.list().subscribe((response)=>{
+      this.todoList = response;
+    },(error=>{
+
+    }));
+  }
+
+  btnClick= ()=>{
+    this.router.navigate(['payment']);
+    //this.router.navigate(['home']);
+  }
+
+}
